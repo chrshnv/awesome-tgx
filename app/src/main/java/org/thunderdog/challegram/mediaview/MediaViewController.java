@@ -49,6 +49,7 @@ import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.graphics.drawable.GradientDrawable;
 
 import androidx.annotation.DrawableRes;
 import androidx.annotation.Nullable;
@@ -5080,9 +5081,17 @@ public class MediaViewController extends ViewController<MediaViewController.Args
       attachHeaderViewWithoutNavigation(headerView);
       headerView.initWithSingleController(this, (SET_FULLSCREEN_ON_OPEN || canRunFullscreen()) && !Config.CUTOUT_ENABLED);
       headerView.getFilling().setShadowAlpha(0f);
+
       int leftMargin = Screen.dp(68f);
       int rightMargin = measureButtonsPadding();
       Views.setMargins((FrameLayout.LayoutParams) headerCell.getLayoutParams(), Lang.rtl() ? rightMargin : leftMargin, headerView.needOffsets() ? HeaderView.getTopOffset() : 0, Lang.rtl() ? leftMargin : rightMargin, 0);
+      headerView.setPadding(headerView.getPaddingLeft(), HeaderView.getTopOffset(), headerView.getPaddingRight(), headerView.getPaddingBottom());
+
+      GradientDrawable gd = new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM, new int[] { 0xFF000000, 0x00000000 });
+      headerView.setBackground(gd);
+      /* ViewGroup.MarginLayoutParams headerViewLayoutParams = (ViewGroup.MarginLayoutParams) headerView.getLayoutParams();
+      headerViewLayoutParams.topMargin = HeaderView.getTopOffset(); */
+
       contentView.addView(headerView);
     }
 

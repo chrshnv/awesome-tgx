@@ -49,8 +49,6 @@ import me.vkryl.android.widget.FrameLayoutFix;
 import me.vkryl.core.lambda.Destroyable;
 
 public class NetworkStatusBarView extends FrameLayoutFix implements Destroyable, Screen.StatusBarHeightChangeListener, GlobalConnectionListener, FactorAnimator.Target, PopupLayout.TouchSectionProvider, Runnable, BaseActivity.ActivityListener, GlobalAccountListener {
-  private ProgressComponentView progressView;
-  private TextView textView;
   private LinearLayout statusWrap;
 
   public NetworkStatusBarView (Context context) {
@@ -61,26 +59,8 @@ public class NetworkStatusBarView extends FrameLayoutFix implements Destroyable,
 
     int color = Theme.getColor(Config.STATUS_BAR_TEXT_COLOR_ID);
 
-    progressView = new ProgressComponentView(context);
-    progressView.initSmall(1f);
-    progressView.setProgressColor(color);
-    progressView.setLayoutParams(new LinearLayout.LayoutParams(Screen.dp(24f), ViewGroup.LayoutParams.MATCH_PARENT));
-
-    textView = new NoScrollTextView(context);
-    textView.setLayoutParams(FrameLayoutFix.newParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT));
-    textView.setGravity(Gravity.CENTER_VERTICAL);
-    textView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 13f);
-    textView.setTextColor(color);
-
     statusWrap = new LinearLayout(context);
     statusWrap.setOrientation(LinearLayout.HORIZONTAL);
-    if (Lang.rtl()) {
-      statusWrap.addView(textView);
-      statusWrap.addView(progressView);
-    } else {
-      statusWrap.addView(progressView);
-      statusWrap.addView(textView);
-    }
     statusWrap.setLayoutParams(FrameLayoutFix.newParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT, Gravity.CENTER_HORIZONTAL));
 
     addView(statusWrap);
@@ -105,20 +85,9 @@ public class NetworkStatusBarView extends FrameLayoutFix implements Destroyable,
   }
 
   public void addThemeListeners (ThemeListenerList list) {
-    list.addThemeColorListener(textView, Config.STATUS_BAR_TEXT_COLOR_ID);
-    list.addThemeColorListener(progressView, Config.STATUS_BAR_TEXT_COLOR_ID);
   }
 
   public void updateDirection () {
-    statusWrap.removeView(textView);
-    statusWrap.removeView(progressView);
-    if (Lang.rtl()) {
-      statusWrap.addView(textView);
-      statusWrap.addView(progressView);
-    } else {
-      statusWrap.addView(progressView);
-      statusWrap.addView(textView);
-    }
   }
 
   @Override
@@ -153,8 +122,6 @@ public class NetworkStatusBarView extends FrameLayoutFix implements Destroyable,
   private void updateNetworkState (final @NonNull Tdlib tdlib) {
     this.tdlib = tdlib;
     this.state = tdlib.connectionState();
-    progressView.setVisibility(state != ConnectionState.CONNECTED && state != ConnectionState.WAITING_FOR_NETWORK ? View.VISIBLE : View.GONE);
-    textView.setText(tdlib.connectionStateText());
     updateVisible();
   }
 

@@ -175,7 +175,7 @@ public class HeaderView extends FrameLayoutFix implements View.OnClickListener, 
       setHeaderOffset(getTopOffset());
       setClipToPadding(false);
     } else {
-      setLayoutParams(FrameLayoutFix.newParams(ViewGroup.LayoutParams.MATCH_PARENT, getSize(false) + filling.getExtraHeight(), Gravity.TOP));
+      setLayoutParams(FrameLayoutFix.newParams(ViewGroup.LayoutParams.MATCH_PARENT, getSize(false) + filling.getExtraHeight() + getTopOffset(), Gravity.TOP));
     }
     this.filling.layout((int) height, getHeightFactor());
     ViewUtils.setBackground(this, filling);
