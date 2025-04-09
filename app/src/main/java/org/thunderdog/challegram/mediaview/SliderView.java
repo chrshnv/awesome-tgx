@@ -316,6 +316,30 @@ public class SliderView extends View implements FactorAnimator.Target {
     return getPaddingRight() + addPaddingRight;
   }
 
+  private boolean move(float x) {
+    if (isUp) {
+      x -= diffX;
+
+      float factor;
+
+      int left = getTotalPaddingLeft();
+      int width = (getMeasuredWidth() - getTotalPaddingRight() - left);
+
+      if (anchorMode == ANCHOR_MODE_CENTER) {
+        int centerX = left + width / 2;
+        float diff = x - centerX;
+        factor = Math.max(-1f, Math.min(1f, diff / (float) (width / 2)));
+      } else {
+        float diff = x - left;
+        factor = Math.max(0f, Math.min(1f, diff / (float) width));
+      }
+
+      changeValue(factor);
+    }
+
+    return true;
+  }
+
   @Override
   public boolean onTouchEvent (MotionEvent e) {
     float x = e.getX();
@@ -334,29 +358,14 @@ public class SliderView extends View implements FactorAnimator.Target {
           return true;
         }
 
+        setIsUp(true);
+        move(x);
+        setIsUp(false);
+
         return false;
       }
       case MotionEvent.ACTION_MOVE: {
-        if (isUp) {
-          x -= diffX;
-
-          float factor;
-
-          int left = getTotalPaddingLeft();
-          int width = (getMeasuredWidth() - getTotalPaddingRight() - left);
-
-          if (anchorMode == ANCHOR_MODE_CENTER) {
-            int centerX = left + width / 2;
-            float diff = x - centerX;
-            factor = Math.max(-1f, Math.min(1f, diff / (float) (width / 2)));
-          } else {
-            float diff = x - left;
-            factor = Math.max(0f, Math.min(1f, diff / (float) width));
-          }
-
-          changeValue(factor);
-          return true;
-        }
+        move(x);
 
         break;
       }
