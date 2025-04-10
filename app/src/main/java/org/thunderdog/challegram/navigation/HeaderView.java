@@ -18,6 +18,7 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ValueAnimator;
 import android.annotation.TargetApi;
+import android.app.AlertDialog;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -1037,7 +1038,12 @@ public class HeaderView extends FrameLayoutFix implements View.OnClickListener, 
     }
     moreWrap.setAnchorMode(MenuMoreWrap.ANCHOR_MODE_RIGHT);
     moreWrap.setRightNumber(buttonIndex);
-    moreWrap.setTranslationY(getTranslationY() + getCurrentHeaderOffset());
+
+    int screenBarOffset = 0;
+    if (getCurrentHeaderOffset() == 0)
+      screenBarOffset = HeaderView.getTopOffset();
+
+    moreWrap.setTranslationY(getTranslationY() + getCurrentHeaderOffset() + screenBarOffset);
     showMore(ids, titles, icons, onMoreItemClick, isLayered, themeListenerList);
   }
 
