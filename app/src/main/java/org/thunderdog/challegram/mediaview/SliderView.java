@@ -352,6 +352,7 @@ public class SliderView extends View implements FactorAnimator.Target {
         prevX = x;
 
         return true;
+      case MotionEvent.ACTION_MOVE:
       case MotionEvent.ACTION_UP:
         // detect swipe
         float delta = x - prevX;
@@ -366,6 +367,7 @@ public class SliderView extends View implements FactorAnimator.Target {
         setIsUp(false);
 
         return true;
+
     }
 
     /*switch (e.getAction()) {

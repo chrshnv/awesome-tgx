@@ -21,6 +21,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 import android.text.TextUtils;
+import android.view.MotionEvent;
 import android.view.TextureView;
 import android.view.View;
 import android.view.ViewGroup;
@@ -144,6 +145,46 @@ public class VideoPlayerView implements Player.Listener, CallManager.CurrentCall
       return;
     }
     prepareTextureView();
+    targetView
+      .setOnTouchListener(new View.OnTouchListener() {
+        @Override
+        public boolean onTouch (View v, MotionEvent event) {
+          int width = v.getWidth();
+
+          float x = event.getX();
+
+          /*if ((float) width / 2 > x)
+            new AlertDialog.Builder(getTargetView().getContext())
+              .setMessage("right half!")
+              .show();
+          else
+            new AlertDialog.Builder(getTargetView().getContext())
+              .setMessage("left half!")
+              .show();*/
+
+          boolean isLeft = (float) width / 2 > x;
+          switch (event.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+              if (player != null) {
+                if (!isLeft)
+                  player.setPlaybackSpeed(2.f);
+              }
+              return true;
+            case MotionEvent.ACTION_MOVE:
+              if (player != null && isLeft)
+                player.seekTo(player.getCurrentPosition() - 100);
+
+              return true;
+            case MotionEvent.ACTION_UP:
+              if (player != null)
+                player.setPlaybackSpeed(1.f);
+              return true;
+          }
+
+          return true;
+        }
+      });
+
     setMuted(mediaItem != null && mediaItem.needMute());
     setLooping(forceLooping || (mediaItem != null && (mediaItem.isSecret() || mediaItem.isGifType())));
     setNoProgressUpdates(mediaItem != null && mediaItem.isSecret());
