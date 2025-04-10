@@ -370,45 +370,6 @@ public class SliderView extends View implements FactorAnimator.Target {
 
     }
 
-    /*switch (e.getAction()) {
-      case MotionEvent.ACTION_DOWN: {
-        int cx = findCenterX();
-        int cy = findCenterY();
-
-        int radius = Screen.dp(24f);
-
-        if (x >= cx - radius && x <= cx + radius && y >= cy - radius && y <= cy + radius && slideEnabled && (changeAnimator == null || !changeAnimator.isAnimating()) && (listener == null || listener.allowSliderChanges(this))) {
-          diffX = x - cx;
-          setIsUp(true);
-          return true;
-        }
-
-        setIsUp(true);
-        move(x);
-        setIsUp(false);
-
-        return false;
-      }
-      case MotionEvent.ACTION_MOVE: {
-        move(x);
-
-        break;
-      }
-      case MotionEvent.ACTION_CANCEL: {
-        if (isUp) {
-          setIsUp(false);
-          return true;
-        }
-        return false;
-      }
-      case MotionEvent.ACTION_UP: {
-        if (isUp) {
-          setIsUp(false);
-          return true;
-        }
-        break;
-      }
-    }*/
     return isUp;
   }
 
