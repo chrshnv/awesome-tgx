@@ -14,6 +14,7 @@
  */
 package org.thunderdog.challegram.mediaview;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.RectF;
@@ -38,6 +39,7 @@ public class SliderView extends View implements FactorAnimator.Target {
   private int anchorMode;
   private boolean slideEnabled;
   private int valueCount;
+  private float prevX;
 
   public SliderView (Context context) {
     super(context);
@@ -346,6 +348,27 @@ public class SliderView extends View implements FactorAnimator.Target {
     float y = e.getY();
 
     switch (e.getAction()) {
+      case MotionEvent.ACTION_DOWN:
+        prevX = x;
+
+        return true;
+      case MotionEvent.ACTION_UP:
+        // detect swipe
+        float delta = x - prevX;
+
+        boolean isSwipe = Math.abs(delta) > 150;
+
+        if (isSwipe)
+          return true;
+
+        setIsUp(true);
+        move(x);
+        setIsUp(false);
+
+        return true;
+    }
+
+    /*switch (e.getAction()) {
       case MotionEvent.ACTION_DOWN: {
         int cx = findCenterX();
         int cy = findCenterY();
@@ -383,7 +406,7 @@ public class SliderView extends View implements FactorAnimator.Target {
         }
         break;
       }
-    }
+    }*/
     return isUp;
   }
 
