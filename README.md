@@ -4,8 +4,8 @@
 
 This is the complete source code and the build instructions for the official alternative Android client for the Telegram messenger, based on the [Telegram API](https://core.telegram.org/api) and the [MTProto](https://core.telegram.org/mtproto) secure protocol via [TDLib](https://github.com/TGX-Android/tdlib).
 
-* [**awesome-tgx** on Telegram](https://t.me/awesometgx)
-* [APKs and Build Info](https://t.me/awesometgxbuilds)
+* [**awesome-tgx** on Telegram](https://t.me/eblanstech)
+* [**support us**](https://boosty.to/realeblanstech/donate)
 
 <details>
 <summary>Other sources</summary>
